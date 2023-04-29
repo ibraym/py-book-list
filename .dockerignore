@@ -1,0 +1,5 @@
+/.git
+/.env
+/.vscode
+/db.sqlite3
+**/node_modules
