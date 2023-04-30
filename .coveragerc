@@ -2,7 +2,6 @@
 branch = true
 # relative_files = true # does not work?
 
-# TODO: add python source folders
 source =
     booklist/apps/
 

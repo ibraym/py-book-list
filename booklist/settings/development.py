@@ -24,7 +24,7 @@ DATABASES = {
 
 # Cross-Origin Resource
 UI_SCHEME = os.environ.get('UI_SCHEME', 'http')
-UI_HOST = os.environ.get('UI_HOST', 'localhost')
+UI_HOST = os.environ.get('UI_HOST', 'http://localhost')
 UI_PORT = os.environ.get('UI_PORT', 3000)
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = [UI_HOST]

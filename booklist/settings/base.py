@@ -14,10 +14,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = str(Path(__file__).parents[2])
 
 
 # Quick-start development settings - unsuitable for production
@@ -56,6 +57,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FormParser',
     ],
     'DEFAULT_RENDERER_CLASSES': [
+        'booklist.apps.core.renderers.BookListAPIRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     # 'DEFAULT_PERMISSION_CLASSES': [
@@ -72,11 +74,11 @@ REST_FRAMEWORK = {
     'ALLOWED_VERSIONS': ('1.0'),
     'DEFAULT_VERSION': '1.0',
     'VERSION_PARAM': 'version',
-    # 'DEFAULT_PAGINATION_CLASS':
-    #     'booklist.apps.core.pagination.CustomPagination',
+    'DEFAULT_PAGINATION_CLASS':
+        'booklist.apps.core.pagination.CustomPagination',
     'PAGE_SIZE': 10,
     'SEARCH_PARAM': 'search',
-    # Disable default handling of the 'format' query parameter by REST framework
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 MIDDLEWARE = [
@@ -170,6 +172,8 @@ CSRF_COOKIE_NAME = "csrftoken"
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+os.makedirs(STATIC_ROOT, exist_ok=True)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

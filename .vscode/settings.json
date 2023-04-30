@@ -38,5 +38,10 @@
     "python.testing.pytestEnabled": true,
     "python.testing.pytestPath": "${workspaceFolder}/.env/bin/pytest",
     "python.testing.cwd": "${workspaceFolder}/tests",
-    "git.enableCommitSigning": true
+    "git.enableCommitSigning": true,
+    "cSpell.words": [
+        "booklist",
+        "Ibrahem",
+        "Mouhamad",
+    ]
 }
