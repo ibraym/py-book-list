@@ -59,7 +59,7 @@ docker-compose up -d
 1. Install necessary dependencies (Ubuntu 20.04):
 
 ```
-sudo apt-get update && sudo apt-get --no-install-recommends install -y build-essential curl git python3-dev python3-pip python3-venv python3-tk  pkg-config apache2-dev
+sudo apt-get update && sudo apt-get --no-install-recommends install -y build-essential curl git python3-dev python3-pip python3-venv pkg-config apache2-dev
 
 ```
 
@@ -96,8 +96,8 @@ python3 -m venv .env
 . .env/bin/activate
 pip install -U pip wheel setuptools
 pip install \
-    -r cvat/requirements/development.txt \
-    -r cvat/requirements/production.txt
+    -r py-book-list/requirements/development.txt \
+    -r py-book-list/requirements/production.txt
 python manage.py migrate
 python manage.py collectstatic
 ```
