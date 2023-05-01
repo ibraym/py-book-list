@@ -56,35 +56,38 @@ const BookForm = ({ onSubmit }: BookFormProps): JSX.Element => {
     } = methods;
     const rules = {
         required: 'This field is required',
-        validateName: (name) => {
-            if (name.length <= 20) {
+        validateName: (name: string) => {
+            if (name && name.length <= 20) {
                 return undefined;
             }
             return 'Book name must be less than 20 characters';
         },
-        validateTitle: (title) => {
-            if (title.length <= 30) {
+        validateTitle: (title: string) => {
+            if (title && title.length <= 30) {
                 return undefined;
             }
             return 'Book title must be less than 30 characters';
         },
-        validateAuthor: (author) => {
-            if (author.length <= 30) {
+        validateAuthor: (author: string) => {
+            if (author && author.length <= 30) {
                 return undefined;
             }
             return 'Book author must be less than 30 characters';
         },
-        validateDescription: (description) => {
-            if (description.length <= 512) {
+        validateDescription: (description: string) => {
+            if (description && description.length <= 512) {
                 return undefined;
             }
             return 'Book description must be less than 512 characters';
         },
-        validatePrice: (price) => {
-            if (price > 0 && price <= 99999) {
-                return undefined;
+        validatePrice: (price: number) => {
+            if (price && Number.isInteger(+price)) {
+                if (price && price > 0 && price <= 99999) {
+                    return undefined;
+                }
+                return 'Book price must be between 0 and 99999';
             }
-            return 'Book price must be between 0 and 99999';
+            return 'Book price must be an integer number';
         },
     };
 
@@ -116,7 +119,7 @@ const BookForm = ({ onSubmit }: BookFormProps): JSX.Element => {
                     label='Description'
                     multiline
                     minRows={4}
-                    rules={{ required: rules.required, validate: rules.validateDescription }}
+                    rules={{ validate: rules.validateDescription }}
                 />
                 <TextInput
                     name='price'

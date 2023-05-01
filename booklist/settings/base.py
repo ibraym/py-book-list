@@ -65,8 +65,8 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.IsAuthenticated',
     # ],
     # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'skeleton.apps.iam.authentication.TokenAuthenticationEx',
-    #     'skeleton.apps.iam.authentication.SignatureAuthentication',
+    #     'booklist.apps.iam.authentication.TokenAuthenticationEx',
+    #     'booklist.apps.iam.authentication.SignatureAuthentication',
     #     'rest_framework.authentication.SessionAuthentication',
     #     'rest_framework.authentication.BasicAuthentication'
     # ],

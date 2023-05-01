@@ -1,0 +1,102 @@
+# Copyright (C) 2023 Ibrahem Mouhamad
+#
+# SPDX-License-Identifier: MIT
+
+version: '3.3'
+
+services:
+  booklist_db:
+    container_name: booklist_db
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_DB: booklist
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - booklist_db:/var/lib/postgresql/data
+    networks:
+      - booklist
+
+  booklist_server:
+    container_name: booklist_server
+    image: ibraym/server:${BOOKLIST_VERSION:-dev}
+    restart: always
+    depends_on:
+      - booklist_db
+      - booklist_opa
+    environment:
+      DJANGO_MODWSGI_EXTRA_ARGS: ''
+      ALLOWED_HOSTS: '*'
+      BOOKLIST_POSTGRES_HOST: 'booklist_db'
+      no_proxy: elasticsearch,kibana,logstash,opa
+    command: -c supervisord/server.conf
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.booklist.loadbalancer.server.port=8080
+      - traefik.http.routers.booklist.rule=Host(`${BOOKLIST_HOST:-localhost}`) && PathPrefix(`/api/`, `/statics/`, `/admin`)
+      - traefik.http.routers.booklist.entrypoints=web
+    networks:
+      - booklist
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  booklist_ui:
+    container_name: booklist_ui
+    image: ibraym/ui:${BOOKLIST_VERSION:-dev}
+    restart: always
+    depends_on:
+      - booklist_server
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.booklist-ui.loadbalancer.server.port=80
+      - traefik.http.routers.booklist-ui.rule=Host(`${BOOKLIST_HOST:-localhost}`)
+      - traefik.http.routers.booklist-ui.entrypoints=web
+    networks:
+      - booklist
+
+  traefik:
+    image: traefik:v2.4
+    container_name: traefik
+    restart: always
+    command:
+      - '--providers.docker.exposedByDefault=false'
+      - '--providers.docker.network=booklist'
+      - '--entryPoints.web.address=:8080'
+      - '--providers.file.directory=/etc/traefik/rules'
+    # Uncomment to get Traefik dashboard
+    #   - "--entryPoints.dashboard.address=:8090"
+    #   - "--api.dashboard=true"
+    # labels:
+    #   - traefik.enable=true
+    #   - traefik.http.routers.dashboard.entrypoints=dashboard
+    #   - traefik.http.routers.dashboard.service=api@internal
+    #   - traefik.http.routers.dashboard.rule=Host(`${BOOKLIST_HOST:-localhost}`)
+    ports:
+      - 8080:8080
+      - 8090:8090
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - booklist
+
+  booklist_opa:
+    container_name: booklist_opa
+    image: openpolicyagent/opa:0.34.2-rootless
+    restart: always
+    networks:
+      booklist:
+        aliases:
+          - opa
+    volumes:
+      - ./booklist/apps/iam/rules:/rules
+    ports:
+      - '8181:8181'
+    command: run --server --addr :8181 --set=decision_logs.console=true /rules
+
+volumes:
+  booklist_db:
+
+
+networks:
+  booklist:

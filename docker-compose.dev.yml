@@ -1,0 +1,25 @@
+# Copyright (C) 2023 Ibrahem Mouhamad
+#
+# SPDX-License-Identifier: MIT
+
+version: '3.3'
+
+services:
+  booklist_server:
+    build:
+      context: .
+      args:
+        http_proxy:
+        https_proxy:
+        socks_proxy:
+
+
+  booklist_ui:
+    build:
+      context: .
+      args:
+        http_proxy:
+        https_proxy:
+        no_proxy:
+        socks_proxy:
+      dockerfile: Dockerfile.ui
