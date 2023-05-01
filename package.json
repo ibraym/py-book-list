@@ -1,0 +1,76 @@
+{
+  "name": "booklist",
+  "version": "1.0.0",
+  "description": "Eslint && remarklint dependencies",
+  "directories": {
+    "test": "tests"
+  },
+  "private": true,
+  "workspaces": [
+    "booklist-ui"
+  ],
+  "devDependencies": {
+    "@istanbuljs/nyc-config-babel": "^3.0.0",
+    "@types/node": "^18.7.13",
+    "@typescript-eslint/eslint-plugin": "^5.34.0",
+    "@typescript-eslint/parser": "^5.34.0",
+    "babel-plugin-istanbul": "^6.1.1",
+    "babel-register": "^6.26.0",
+    "coveralls": "^3.1.1",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^26.5.3",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-no-unsanitized": "^3.0.2",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-security": "^1.4.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "micromatch": "^4.0.5",
+    "nyc": "^15.1.0",
+    "remark-cli": "^11.0.0",
+    "remark-frontmatter": "^4.0.1",
+    "remark-gfm": "^3.0.1",
+    "remark-lint-emphasis-marker": "^3.1.1",
+    "remark-lint-list-item-spacing": "^4.1.1",
+    "remark-lint-maximum-heading-length": "^3.1.1",
+    "remark-lint-maximum-line-length": "^3.1.2",
+    "remark-lint-no-dead-urls": "^1.1.0",
+    "remark-lint-no-file-name-irregular-characters": "^2.1.1",
+    "remark-lint-ordered-list-marker-style": "^3.1.1",
+    "remark-lint-strong-marker": "^3.1.1",
+    "remark-lint-unordered-list-marker-style": "^3.1.1",
+    "remark-preset-lint-consistent": "^5.1.1",
+    "remark-preset-lint-markdown-style-guide": "^5.1.2",
+    "remark-preset-lint-recommended": "^6.1.2",
+    "stylelint": "^14.11.0",
+    "stylelint-config-standard": "^28.0.0",
+    "typescript": "^4.7.4",
+    "vfile-reporter-json": "^3.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "coverage": "yarn run instrument && yarn run cp && yarn run rm",
+    "instrument": "nyc instrument booklist-ui booklist-ui_cov",
+    "cp": "cp -r booklist-ui_cov/* booklist-ui",
+    "rm": "rm -rf booklist-ui_cov",
+    "prepare": "husky install && rm .husky/pre-commit; npx husky add .husky/pre-commit \"npx lint-staged\"",
+    "precommit:booklist-ui": "cd booklist-ui && eslint --fix",
+    "build:booklist-ui": "yarn workspace booklist-ui run build",
+    "start:booklist-ui": "yarn workspace booklist-ui run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibraym/py-book-list.git"
+  },
+  "author": "Ibrahem Mouhamad",
+  "license": "MIT",
+  "resolutions": {
+    "@types/react": "17.0.2",
+    "@types/react-dom": "17.0.2"
+  }
+}

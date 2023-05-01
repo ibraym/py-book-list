@@ -1,0 +1,7 @@
+{
+    "short_name": "Book List",
+    "name": "UI application to list all of Book",
+    "icons": [],
+    "start_url": ".",
+    "display": "standalone"
+}
