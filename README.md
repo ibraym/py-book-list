@@ -96,8 +96,8 @@ python3 -m venv .env
 . .env/bin/activate
 pip install -U pip wheel setuptools
 pip install \
-    -r py-book-list/requirements/development.txt \
-    -r py-book-list/requirements/production.txt
+    -r booklist/requirements/development.txt \
+    -r booklist/requirements/production.txt
 python manage.py migrate
 python manage.py collectstatic
 ```
